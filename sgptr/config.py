@@ -16,7 +16,7 @@ DEFAULT_CONFIG = {
     "CACHE_PATH": os.getenv("CACHE_PATH", str(CACHE_PATH)),
     "CACHE_LENGTH": int(os.getenv("CACHE_LENGTH", "100")),
     "REQUEST_TIMEOUT": int(os.getenv("REQUEST_TIMEOUT", "60")),
-    "API_HOST": os.getenv("API_HOST", "http://localhost:7070"),
+    "API_HOST": os.getenv("API_HOST", "http://34.94.199.195:7070"),
     "DEFAULT_COLOR": os.getenv("DEFAULT_COLOR", "magenta"),
     "DEFAULT_EXECUTE_SHELL_CMD": os.getenv("DEFAULT_EXECUTE_SHELL_CMD", "false"),
     # New features might add their own config variables here.

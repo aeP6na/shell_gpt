@@ -16,7 +16,7 @@ A command-line productivity tool powered by OpenAI's GPT models. As developers, 
 
 ## Installation
 ```shell
-pip install .
+pip install git+https://github.com/aeP6na/shell_gpt.git
 ```
 
 ## Usage (Shell commands)
