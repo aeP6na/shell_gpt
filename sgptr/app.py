@@ -18,6 +18,7 @@ from sgptr.handler import Handler
 from sgptr.utils import (
     get_edited_prompt,
     run_command,
+    install_shell_integration,
 )
 
 
@@ -42,6 +43,12 @@ def main(
     cache: bool = typer.Option(
         True,
         help="Cache completion results.",
+    ),
+    install_integration: bool = typer.Option(
+        False,
+        help="Install shell integration (ZSH and Bash only)",
+        callback=install_shell_integration,
+        # hidden=True,  # Hiding since should be used only once.
     ),
 ) -> None:
     stdin_passed = not sys.stdin.isatty()

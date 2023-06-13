@@ -60,3 +60,88 @@ def option_callback(func: Callable) -> Callable:  # type: ignore
         raise typer.Exit()
 
     return wrapper
+
+
+SIMPLE_BASH = """
+# Shell-GPTr integration BASH v0.1
+_sgptr_bash() {
+if [[ -n "$READLINE_LINE" ]]; then
+	READLINE_LINE=$(sgptr <<< "$READLINE_LINE")
+    READLINE_POINT=${#READLINE_LINE}
+fi
+}
+bind -x '"\C-l": _sgptr_bash'
+# Shell-GPTr integration BASH v0.1
+"""
+
+
+SIMPLE_ZSH = """
+# Shell-GPTr integration ZSH v0.1
+_sgptr_zsh() {
+if [[ -n "$BUFFER"]]; then
+    _sgpt_prev_cmd=$BUFFER
+    BUFFER+="⌛"
+    zle -I && zle redisplay
+    BUFFER=$(sgptr <<< "$_sgpt_prev_cmd")
+    zle end-of-line
+fi
+}
+zle -N _sgptr_zsh
+bindkey ^l _sgptr_zsh
+# Shell-GPTr integration ZSH v0.1
+"""
+
+
+INSTALL = """#!/bin/sh
+# Identify the shell
+case $SHELL in
+  *'zsh'*)
+    echo "Current shell is ZSH."
+    SHELL_SCRIPT_FILE="{ZSH_SCRIPT_FILE}"
+    PROFILE_FILE="$HOME/.zshrc"
+    ;;
+  *'bash'*)
+    echo "Current shell is BASH."
+    SHELL_SCRIPT_FILE="{BASH_SCRIPT_FILE}"
+    PROFILE_FILE="$HOME/.bashrc"
+    ;;
+  *)
+    echo "Your shell is not supported yet."
+    echo "Current shell is neither ZSH nor BASH. Aborting."
+    exit 1
+    ;;
+esac
+echo "Appending the script to $PROFILE_FILE..."
+cat $SHELL_SCRIPT_FILE >> $PROFILE_FILE
+echo "Done."
+echo "You may restart your shell to apply changes."
+"""
+
+
+@option_callback
+def install_shell_integration(*_args: Any) -> None:
+    """
+    Installs shell integration. Currently only supports Linux.
+    Allows user to get shell completions in terminal by using hotkey.
+    Allows user to edit shell command right away in terminal.
+    """
+    # TODO: Add support for Windows.
+    # TODO: Implement updates.
+    if platform.system() == "Windows":
+        typer.echo("Windows is not supported yet.")
+    else:
+        with NamedTemporaryFile('w', encoding='utf-8', suffix=".sh", delete=False) as file:
+            bash_script_file = file.name
+            file.write(SIMPLE_BASH)
+        with NamedTemporaryFile('w', encoding='utf-8', suffix=".sh", delete=False) as file:
+            zsh_script_file = file.name
+            file.write(SIMPLE_ZSH)
+        with NamedTemporaryFile('w', encoding='utf-8', suffix=".sh", delete=False) as file:
+            install_script_file = file.name
+            file.write(INSTALL.format(
+                BASH_SCRIPT_FILE=bash_script_file,
+                ZSH_SCRIPT_FILE=zsh_script_file))
+        os.system(f'sh "{install_script_file}"')
+        os.remove(install_script_file)
+        os.remove(bash_script_file)
+        os.remove(zsh_script_file)
