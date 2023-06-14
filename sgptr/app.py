@@ -81,6 +81,7 @@ def main(
         )
         data['option'].append(option)
         if option == "e":
+            Handler().upload(data)
             run_command(full_completion)
         elif option == "m":
             full_completion = get_edited_prompt(full_completion).strip()
@@ -88,8 +89,6 @@ def main(
             typer.secho(full_completion, fg=cfg.get("DEFAULT_COLOR"), bold=True)
             continue
         break
-    
-    Handler().upload(data)
 
 
 def entry_point() -> None:

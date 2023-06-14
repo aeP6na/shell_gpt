@@ -70,7 +70,7 @@ if [[ -n "$READLINE_LINE" ]]; then
     READLINE_POINT=${#READLINE_LINE}
 fi
 }
-bind -x '"\C-l": _sgptr_bash'
+bind -x '"\C-i": _sgptr_bash'
 # Shell-GPTr integration BASH v0.1
 """
 
@@ -78,7 +78,7 @@ bind -x '"\C-l": _sgptr_bash'
 SIMPLE_ZSH = """
 # Shell-GPTr integration ZSH v0.1
 _sgptr_zsh() {
-if [[ -n "$BUFFER"]]; then
+if [[ -n "$BUFFER" ]]; then
     _sgpt_prev_cmd=$BUFFER
     BUFFER+="⌛"
     zle -I && zle redisplay
@@ -87,7 +87,7 @@ if [[ -n "$BUFFER"]]; then
 fi
 }
 zle -N _sgptr_zsh
-bindkey ^l _sgptr_zsh
+bindkey ^i _sgptr_zsh
 # Shell-GPTr integration ZSH v0.1
 """
 
