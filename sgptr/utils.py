@@ -74,7 +74,7 @@ if [[ -n "$READLINE_LINE" ]]; then
     READLINE_POINT=${#READLINE_LINE}
 fi
 }
-bind -x '"\C-i": _sgptr_bash'
+bind -x '"\C-y": _sgptr_bash'
 
 _sgptr_last_bash() {
 if [[ -n "$SGPTR_LAST_NL" ]]; then
@@ -103,7 +103,7 @@ if [[ -n "$BUFFER" ]]; then
 fi
 }
 zle -N _sgptr_zsh
-bindkey ^i _sgptr_zsh
+bindkey ^y _sgptr_zsh
 
 _sgptr_last_zsh() {
 if [[ -n "$SGPTR_LAST_NL" ]]; then
