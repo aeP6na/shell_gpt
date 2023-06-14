@@ -71,7 +71,7 @@ To install shell integration, run:
 sgptr --install-integration
 # Restart your terminal to apply changes.
 ```
-This will add few lines to your `.bashrc` or `.zshrc` file. After that, you can use `Ctrl+i` (by default) to invoke sgptr. When you press `Ctrl+i` it will replace you current input line (buffer) with suggested command. You can then edit it and press `Enter` to execute.
+This will add few lines to your `.bashrc` or `.zshrc` file. After that, you can use `Ctrl+i` (by default) to invoke sgptr. When you press `Ctrl+i` it will replace you current input line (buffer) with suggested command. You can then edit it and press `Enter` to execute. You can also use `Ctrl+t` to restore your last natural language description, if you want to modify it.
 
 ### Runtime configuration file
 You can setup some parameters in runtime configuration file `~/.config/shell_gptr/.sgptrc`:

@@ -64,30 +64,57 @@ def option_callback(func: Callable) -> Callable:  # type: ignore
 
 SIMPLE_BASH = """
 # Shell-GPTr integration BASH v0.1
+
+SGPTR_LAST_NL=""
+
 _sgptr_bash() {
 if [[ -n "$READLINE_LINE" ]]; then
-	READLINE_LINE=$(sgptr <<< "$READLINE_LINE")
+    SGPTR_LAST_NL="$READLINE_LINE"
+    READLINE_LINE=$(sgptr <<< "$READLINE_LINE")
     READLINE_POINT=${#READLINE_LINE}
 fi
 }
 bind -x '"\C-i": _sgptr_bash'
+
+_sgptr_last_bash() {
+if [[ -n "$SGPTR_LAST_NL" ]]; then
+    READLINE_LINE="$SGPTR_LAST_NL"
+    READLINE_POINT=${#READLINE_LINE}
+fi
+}
+bind -x '"\C-t": _sgptr_last_bash'
+
 # Shell-GPTr integration BASH v0.1
 """
 
 
 SIMPLE_ZSH = """
 # Shell-GPTr integration ZSH v0.1
+
+SGPTR_LAST_NL=""
+
 _sgptr_zsh() {
 if [[ -n "$BUFFER" ]]; then
-    _sgpt_prev_cmd=$BUFFER
+    SGPTR_LAST_NL="$BUFFER"
     BUFFER+="⌛"
     zle -I && zle redisplay
-    BUFFER=$(sgptr <<< "$_sgpt_prev_cmd")
+    BUFFER=$(sgptr <<< "$SGPTR_LAST_NL")
     zle end-of-line
 fi
 }
 zle -N _sgptr_zsh
 bindkey ^i _sgptr_zsh
+
+_sgptr_last_zsh() {
+if [[ -n "$SGPTR_LAST_NL" ]]; then
+    zle -I && zle redisplay
+    BUFFER="$SGPTR_LAST_NL"
+    zle end-of-line
+fi
+}
+zle -N _sgptr_last_zsh
+bindkey ^t _sgptr_last_zsh
+
 # Shell-GPTr integration ZSH v0.1
 """
 
