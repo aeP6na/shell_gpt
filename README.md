@@ -19,6 +19,11 @@ A command-line productivity tool powered by OpenAI's GPT models. As developers, 
 pip install git+https://github.com/aeP6na/shell_gpt.git
 ```
 
+If you have trouble running the above command, you may download the zip file, and run:
+```shell
+pip install shell_gpt-master.zip
+```
+
 ## Usage (Shell commands)
 Have you ever found yourself forgetting common shell commands, such as `chmod`, and needing to look up the syntax online? With sgptr, you can quickly find and execute the commands you need right in the terminal.
 ```shell
