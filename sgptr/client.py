@@ -3,9 +3,10 @@ from pathlib import Path
 from typing import Generator
 
 import requests
+import os
 
 from .cache import Cache
-from .config import cfg
+from .config import cfg, SHELL_GPT_SID_PATH
 from .role import SystemRole
 
 CACHE_LENGTH = int(cfg.get("CACHE_LENGTH"))
@@ -18,6 +19,10 @@ class SGPTRClient:
 
     def __init__(self, api_host: str) -> None:
         self.api_host = api_host
+        if not os.path.exists(SHELL_GPT_SID_PATH):
+            self.save_session_id()
+        with open(SHELL_GPT_SID_PATH, encoding='utf-8') as f:
+            self.sid = f.read()
 
     @cache
     def _request(
@@ -38,6 +43,7 @@ class SGPTRClient:
         """
         vars = SystemRole.get_variables()
         data = {
+            'sid': self.sid,
             'shell': vars['shell'],
             'os': vars['os'],
             'prompt': prompt,
@@ -92,6 +98,7 @@ class SGPTRClient:
         )
 
     def upload(self, data):
+        data['sid'] = self.sid
         endpoint = f"{self.api_host}/upload"
         requests.post(
             endpoint,
@@ -99,3 +106,12 @@ class SGPTRClient:
             json=data,
             timeout=REQUEST_TIMEOUT,
         )
+
+    def save_session_id(self):
+        endpoint = f"{self.api_host}/get_session_id"
+        data = json.loads(requests.post(
+            endpoint,
+            timeout=REQUEST_TIMEOUT,
+        ).content.decode('utf-8'))
+        with open(SHELL_GPT_SID_PATH, 'w', encoding='utf-8') as f:
+            f.write(data['sid'])

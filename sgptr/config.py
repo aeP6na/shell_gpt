@@ -8,6 +8,7 @@ from click import UsageError
 CONFIG_FOLDER = os.path.expanduser("~/.config")
 SHELL_GPT_CONFIG_FOLDER = Path(CONFIG_FOLDER) / "shell_gptr"
 SHELL_GPT_CONFIG_PATH = SHELL_GPT_CONFIG_FOLDER / ".sgptrc"
+SHELL_GPT_SID_PATH = SHELL_GPT_CONFIG_FOLDER / ".sgptrsid"
 CACHE_PATH = Path(gettempdir()) / "shell_gptr_cache"
 
 # TODO: Refactor ENV variables with SGPT_ prefix.
