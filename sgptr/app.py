@@ -19,6 +19,7 @@ from sgptr.utils import (
     get_edited_prompt,
     run_command,
     install_shell_integration,
+    refresh_api_url,
 )
 
 
@@ -48,7 +49,13 @@ def main(
         False,
         help="Install shell integration (ZSH and Bash only)",
         callback=install_shell_integration,
-        # hidden=True,  # Hiding since should be used only once.
+        hidden=True,  # Hiding since should be used only once.
+    ),
+    refresh_url: bool = typer.Option(
+        False,
+        help="Refresh API URL",
+        callback=refresh_api_url,
+        hidden=True,  # Hiding since should be used only once.
     ),
 ) -> None:
     stdin_passed = not sys.stdin.isatty()

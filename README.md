@@ -78,6 +78,12 @@ sgptr --install-integration
 ```
 This will add few lines to your `.bashrc` or `.zshrc` file. After that, you can use `Ctrl+y` (by default) to invoke sgptr. When you press `Ctrl+y` it will replace you current input line (buffer) with suggested command. You can then edit it and press `Enter` to execute. You can also use `Ctrl+t` to restore your last natural language description, if you want to modify it.
 
+### Refresh URL
+Our server is not stable. There is possibility that we have to change the API server URL, so we provide a simple way to refresh it:
+```shell
+sgptr --refresh-url
+```
+
 ### Runtime configuration file
 You can setup some parameters in runtime configuration file `~/.config/shell_gptr/.sgptrc`:
 ```text

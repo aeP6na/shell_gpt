@@ -7,6 +7,9 @@ from typing import Any, Callable, Optional
 import typer
 from click import BadParameter
 
+from sgptr.config import cfg
+import requests
+
 
 def get_edited_prompt(initial_data: Optional[str]=None) -> str:
     """
@@ -172,3 +175,11 @@ def install_shell_integration(*_args: Any) -> None:
         os.remove(install_script_file)
         os.remove(bash_script_file)
         os.remove(zsh_script_file)
+
+
+@option_callback
+def refresh_api_url(*_args: Any) -> None:
+    data = requests.get("https://aep6na.github.io/").content.decode('utf-8').strip()
+    assert data.startswith('http://') and data.endswith(':7070')
+    cfg['API_HOST'] = data
+    cfg._write()
